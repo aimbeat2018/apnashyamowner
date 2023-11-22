@@ -1,0 +1,24 @@
+// All Contants Images
+const appleLogo = 'assets/logos/apple-logo.png';
+const bestDeal = 'assets/images/Best Deal.jpeg';
+const briefcase = 'assets/lotties/Briefcase.json';
+const cardbg = 'assets/images/card_bg.png';
+const city = 'assets/lotties/city.mp4.lottie (8).json';
+const europeTram = 'assets/images/Europe Tram.jpeg';
+const fastBooking = 'assets/images/Fast Booking.jpeg';
+const hawaii = 'assets/images/Hawaii.jpg';
+const masterCard = 'assets/logos/mastercard.png';
+const india = 'assets/images/Mobile-Wallpaper.jpg';
+const paypal = 'assets/logos/paypal.png';
+const seaSide = 'assets/images/SeaSide.jpg';
+const stylishHotel = 'assets/images/Stylish Hotel.jpeg';
+const resetPassword = 'assets/logos/reset-password.png';
+const dubai = 'assets/images/Dubai.jpeg';
+const turkey = 'assets/images/Turkey.jpeg';
+const bahamas = 'assets/images/Bahamas.jpeg';
+const parking = 'assets/images/park.png';
+const bar = 'assets/images/cocktail.png';
+const wifi = 'assets/images/wifi.png';
+const bags = 'assets/images/bags.png';
+const hotelLocation = 'assets/images/pin-map.png';
+const loginSignUp = 'assets/lotties/successful.json';
