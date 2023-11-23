@@ -6,7 +6,6 @@ class AppConstants {
   static const String profile_update = 'profile_update';
   static const String home = 'owner_home';
   static const String hotel_list = 'owner_hotel_listing';
-  static const String category_wise_hotel_listing = 'category_wise_hotel_listing';
   static const String category_listing = 'category_listing';
   static const String hotel_details = 'hotel_details';
   static const String room_listing = 'room_listing';
@@ -20,8 +19,9 @@ class AppConstants {
   static const String store_search = 'store_search';
   static const String coupons = 'coupons';
   static const String my_booking_list = 'my_booking_list';
-  static const String booking_cancel = 'booking_cancel';
+  static const String booking_cancel = 'owner_cancel_booking';
   static const String owner_check_in = 'owner_check_in';
+  static const String owner_check_out = 'owner_check_out';
   static const String tnc_pp = 'tnc_pp';
   static const String notifications = 'notifications';
 

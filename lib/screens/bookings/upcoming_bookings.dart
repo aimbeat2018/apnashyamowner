@@ -15,7 +15,9 @@ import '../../controller/homeController.dart';
 import '../../model/response/myBookingResponseModel.dart';
 
 class UpcomingBookings extends StatefulWidget {
-  const UpcomingBookings({super.key});
+  String? hotel_id;
+
+  UpcomingBookings({super.key, this.hotel_id});
 
   @override
   State<UpcomingBookings> createState() => _UpcomingBookingsState();
@@ -42,12 +44,13 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
             _connectionStatus = value;
           }));
     });
-    getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+
+    getList();
     // Length Of List
     // int list = myBookingResponseModel!.data!.list!.length;
 
@@ -64,434 +67,468 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                       ? const Center(
                           child: CircularProgressIndicator(),
                         )
-                      : myBookingResponseModel!.data!.list == null
+                      : myBookingResponseModel!.data!.code == "201"
                           ? const Center(
-                              child: Center(child: Text('No records found!')),
+                              child: Text("Data not found!"),
                             )
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                  Text(
-                                      'You have ${myBookingResponseModel!.data!.list!.length} upcoming booking'),
-                                  SizedBox(
-                                    height: 10.r,
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      itemCount: myBookingResponseModel!
-                                          .data!.list!.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return /*UpcomingBookingContainer(list: myBookingResponseModel!
-                    .data!.list![index]);*/
-                                            Card(
-                                              elevation: 5,
-                                              color: CupertinoColors.lightBackgroundGray,
-                                              child: Padding(
-                                          padding:
-                                                const EdgeInsets.only(top: 15, bottom: 15),
-                                          child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.spaceBetween,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    // Container(
-                                                    //   height: 70,
-                                                    //   width: 70,
-                                                    //   decoration: BoxDecoration(
-                                                    //       borderRadius:
-                                                    //           BorderRadius.circular(
-                                                    //               10),
-                                                    //       image: DecorationImage(
-                                                    //           image: NetworkImage(
-                                                    //               myBookingResponseModel!
-                                                    //                   .data!
-                                                    //                   .list![index]
-                                                    //                   .roomImage!),
-                                                    //           fit: BoxFit.fill)),
-                                                    // ),
-                                                    // const SizedBox(
-                                                    //   height: 20,
-                                                    // ),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 15.0),
-                                                      child: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment.start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Text(
-                                                                myBookingResponseModel!
-                                                                    .data!.list![index].userName!,
-                                                                style: TextStyle(
-                                                                  color: AppColors.btnColor,
-                                                                    fontWeight:
-                                                                        FontWeight.bold,
-                                                                    fontSize: 16.sp),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 3.r,
-                                                              ),
-                                                              Text(
-                                                                  myBookingResponseModel!
-                                                                      .data!.list![index].roomCategory!,
-                                                                  style: Theme.of(
-                                                                          context)
-                                                                      .textTheme
-                                                                      .bodySmall
-                                                                      ?.copyWith(
-                                                                          fontSize:
-                                                                              13.sp)),
-
-                                                              SizedBox(
-                                                                height: 3.r,
-                                                              ),
-                                                              Row(
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons.money,
-                                                                    size: 11.sp,
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3.r,
-                                                                  ),
-                                                                  Text(
-                                                                    'Payment\nStatus: ${myBookingResponseModel!.data!.list![index].paymentStatus!}',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            11.sp),
-                                                                  ),
-                                                                  // Padding(
-                                                                  //   padding: EdgeInsets
-                                                                  //       .symmetric(
-                                                                  //           horizontal:
-                                                                  //               3.r),
-                                                                  //   child: StarSymbol(
-                                                                  //     size: 11.sp,
-                                                                  //   ),
-                                                                  // ),
-                                                                  // Text(
-                                                                  //   myBookingResponseModel!
-                                                                  //       .data!
-                                                                  //       .list![index].totalNoOfRatings!
-                                                                  //       .toString(),
-                                                                  //   style: TextStyle(
-                                                                  //       fontSize:
-                                                                  //           11.sp),
-                                                                  // )
-                                                                ],
-                                                              )
-                                                            ],
-                                                          ),
-                                                          Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text(
-                                                                '₹${myBookingResponseModel!.data!.list![index].totalAmount!}',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight.bold,
-                                                                    fontSize: 16.sp),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 3.r,
-                                                              ),
-                                                              Text(
-                                                                'Total',
-                                                                style: TextStyle(
-                                                                    fontSize: 12.sp),
-                                                              ),
-                                                              SizedBox(
-                                                                height: 10.r,
-                                                              ),
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (ctx) =>
-                                                                        AlertDialog(
-                                                                          title: const Text(
-                                                                              'Cancel Booking'),
-                                                                          content: const Text(
-                                                                              'Are you sure you want to\ncancel this order?',
-                                                                              style: TextStyle(
-                                                                                  color: Colors
-                                                                                      .black)),
-                                                                          actions: <Widget>[
-                                                                            MaterialButton(
-                                                                              child: const Text(
-                                                                                  'Dismiss'),
-                                                                              onPressed: () {
-                                                                                Navigator.of(
-                                                                                    ctx)
-                                                                                    .pop();
-                                                                              },
-                                                                            ),
-                                                                            MaterialButton(
-                                                                              child: const Text(
-                                                                                'Cancel Booking',
-                                                                                style: TextStyle(
-                                                                                    fontWeight:
-                                                                                    FontWeight
-                                                                                        .bold),
-                                                                              ),
-                                                                              onPressed: () {
-                                                                                Navigator.of(
-                                                                                    ctx)
-                                                                                    .pop();
-                                                                                cancelBooking(index);
-                                                                              },
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  height: 30.r,
-                                                                  width: (width - 50),
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(10),
-                                                                      color: Colors.blueGrey),
-                                                                  child: const Center(
-                                                                    child: Text(
-                                                                      'Cancel booking',
-                                                                      style: TextStyle(
-                                                                        color: Colors.white,
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          )
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    // const Divider(
-                                                    //   color: AppColors.shadowColor,
-                                                    //   height: 80,
-                                                    // ),
-                                                    Container(
-                                                      width: width,
-                                                      decoration: const BoxDecoration(
-                                                          border: Border(
-                                                              left: BorderSide(
-                                                                  color: AppColors
-                                                                      .shadowColor))),
-                                                      child: Column(
-                                                        children: [
-                                                          Padding(
-                                                            padding: const EdgeInsets.only(left: 1.0),
-                                                            child: Column(
+                          : myBookingResponseModel!.data!.list == null ||
+                                  myBookingResponseModel!.data!.list!.length ==
+                                      0
+                              ? const Center(
+                                  child:
+                                      Center(child: Text('No records found!')),
+                                )
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                      Text(
+                                          'You have ${myBookingResponseModel!.data!.list!.length} upcoming booking'),
+                                      SizedBox(
+                                        height: 10.r,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8.0),
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          itemCount: myBookingResponseModel!
+                                              .data!.list!.length,
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return myBookingResponseModel!
+                                                            .data!
+                                                            .list![index]
+                                                            .checkinCheckoutFlag ==
+                                                        0 ||
+                                                    myBookingResponseModel!
+                                                            .data!
+                                                            .list![index]
+                                                            .checkinCheckoutFlag ==
+                                                        1
+                                                ? Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 5.0),
+                                                    child: Card(
+                                                      elevation: 5,
+                                                      color: CupertinoColors
+                                                          .lightBackgroundGray,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                                top: 15,
+                                                                bottom: 15),
+                                                        child: Column(
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
                                                               crossAxisAlignment:
                                                                   CrossAxisAlignment
                                                                       .start,
                                                               children: [
-                                                                Text(
-                                                                  'Travel Date',
-                                                                  style: Theme.of(
-                                                                          context)
-                                                                      .textTheme
-                                                                      .bodySmall
-                                                                      ?.copyWith(
-                                                                          fontSize:
-                                                                              12.sp),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 2,
-                                                                ),
-                                                                Text(
-                                                                  '$fromDate - $toDate',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          14.sp),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 7,
-                                                          ),
-                                                          Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .only(left: 1),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Text(
-                                                                  'Number of Rooms',
-                                                                  style: Theme.of(
-                                                                          context)
-                                                                      .textTheme
-                                                                      .bodySmall
-                                                                      ?.copyWith(
-                                                                          fontSize:
-                                                                              12.sp),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 1,
-                                                                ),
-                                                                Text(
-                                                                  myBookingResponseModel!
-                                                                              .data!
-                                                                              .list![
-                                                                                  index].childs ==
-                                                                          ""
-                                                                      ? '${myBookingResponseModel!.data!.list![index].noOfRooms} Room - ${(int.parse(myBookingResponseModel!.data!.list![index].adults!)).toString()} People'
-                                                                      : '${myBookingResponseModel!.data!.list![index].noOfRooms} Room - ${(int.parse(myBookingResponseModel!.data!.list![index].adults!) + int.parse(myBookingResponseModel!.data!.list![index].childs!)).toString()} People',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
-                                                                      fontSize:
-                                                                          14.sp),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                          const SizedBox(
-                                                            height: 50,
-                                                          ),
-                                                          Column(
-                                                            mainAxisAlignment:
-                                                            MainAxisAlignment.start,
-                                                            children: [
-                                                              // SubmitButton(width: (width - 10), title: 'Change booking'),
-
-                                                              GestureDetector(
-                                                                onTap: () {
-                                                                  showDialog(
-                                                                    context: context,
-                                                                    builder: (ctx) =>
-                                                                        AlertDialog(
-                                                                          title: const Text(
-                                                                              'Check In'),
-                                                                          content:  Text(
-                                            myBookingResponseModel!.data!.list![index].childs!=""?
-                                                                              'Are you sure you want to\ncheck in ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!} '
-                                                                                  '& Children: ${myBookingResponseModel!.data!.list![index].childs!}':
-                                                                              'Are you sure you want to\ncheck in ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!}',
-                                                                              style: const TextStyle(
-                                                                                  color: Colors
-                                                                                      .black)),
-                                                                          actions: <Widget>[
-                                                                            MaterialButton(
-                                                                              child: const Text(
-                                                                                  'Dismiss'),
-                                                                              onPressed: () {
-                                                                                Navigator.of(
-                                                                                    ctx)
-                                                                                    .pop();
-                                                                              },
-                                                                            ),
-                                                                            MaterialButton(
-                                                                              child: const Text(
-                                                                                'Check In',
-                                                                                style: TextStyle(
-                                                                                    fontWeight:
-                                                                                    FontWeight
-                                                                                        .bold),
+                                                                // Container(
+                                                                //   height: 70,
+                                                                //   width: 70,
+                                                                //   decoration: BoxDecoration(
+                                                                //       borderRadius:
+                                                                //           BorderRadius.circular(
+                                                                //               10),
+                                                                //       image: DecorationImage(
+                                                                //           image: NetworkImage(
+                                                                //               myBookingResponseModel!
+                                                                //                   .data!
+                                                                //                   .list![index]
+                                                                //                   .roomImage!),
+                                                                //           fit: BoxFit.fill)),
+                                                                // ),
+                                                                // const SizedBox(
+                                                                //   height: 20,
+                                                                // ),
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              15.0),
+                                                                  child: Column(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .start,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .spaceBetween,
+                                                                    children: [
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            myBookingResponseModel!.data!.list![index].userName!,
+                                                                            style: TextStyle(
+                                                                                color: AppColors.btnColor,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 16.sp),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                3.r,
+                                                                          ),
+                                                                          Text(
+                                                                              myBookingResponseModel!.data!.list![index].roomCategory!,
+                                                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 13.sp)),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                3.r,
+                                                                          ),
+                                                                          Row(
+                                                                            children: [
+                                                                              Icon(
+                                                                                Icons.money,
+                                                                                size: 11.sp,
                                                                               ),
-                                                                              onPressed: () {
-                                                                                Navigator.of(
-                                                                                    ctx)
-                                                                                    .pop();
-                                                                                checkIn(index);
-                                                                              },
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                  );
-                                                                },
-                                                                child: Container(
-                                                                  height: 30.r,
-                                                                  width: (width - 50),
-                                                                  decoration: BoxDecoration(
-                                                                      borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(10),
-                                                                      color: AppColors.btnColor),
-                                                                  child: const Center(
-                                                                    child: Text(
-                                                                      'Check in',
-                                                                      style: TextStyle(
-                                                                        color: Colors.white,
+                                                                              SizedBox(
+                                                                                width: 3.r,
+                                                                              ),
+                                                                              Text(
+                                                                                'Payment\nStatus: ${myBookingResponseModel!.data!.list![index].paymentStatus!}',
+                                                                                style: TextStyle(fontSize: 11.sp),
+                                                                              ),
+                                                                              // Padding(
+                                                                              //   padding: EdgeInsets
+                                                                              //       .symmetric(
+                                                                              //           horizontal:
+                                                                              //               3.r),
+                                                                              //   child: StarSymbol(
+                                                                              //     size: 11.sp,
+                                                                              //   ),
+                                                                              // ),
+                                                                              // Text(
+                                                                              //   myBookingResponseModel!
+                                                                              //       .data!
+                                                                              //       .list![index].totalNoOfRatings!
+                                                                              //       .toString(),
+                                                                              //   style: TextStyle(
+                                                                              //       fontSize:
+                                                                              //           11.sp),
+                                                                              // )
+                                                                            ],
+                                                                          )
+                                                                        ],
                                                                       ),
-                                                                    ),
+                                                                      Column(
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.start,
+                                                                        children: [
+                                                                          Text(
+                                                                            '₹${myBookingResponseModel!.data!.list![index].totalAmount!}',
+                                                                            style:
+                                                                                TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
+                                                                          ),
+                                                                          SizedBox(
+                                                                            height:
+                                                                                3.r,
+                                                                          ),
+                                                                          Text(
+                                                                            'Total',
+                                                                            style:
+                                                                                TextStyle(fontSize: 12.sp),
+                                                                          ),
+                                                                          myBookingResponseModel!.data!.list![index].checkinCheckoutFlag == 0
+                                                                              ? SizedBox(
+                                                                                  height: 10.r,
+                                                                                )
+                                                                              : SizedBox(),
+                                                                          myBookingResponseModel!.data!.list![index].checkinCheckoutFlag == 0
+                                                                              ? GestureDetector(
+                                                                                  onTap: () {
+                                                                                    showDialog(
+                                                                                      context: context,
+                                                                                      builder: (ctx) => AlertDialog(
+                                                                                        title: const Text('Cancel Booking'),
+                                                                                        content: const Text('Are you sure you want to\ncancel this order?', style: TextStyle(color: Colors.black)),
+                                                                                        actions: <Widget>[
+                                                                                          MaterialButton(
+                                                                                            child: const Text('Dismiss'),
+                                                                                            onPressed: () {
+                                                                                              Navigator.of(ctx).pop();
+                                                                                            },
+                                                                                          ),
+                                                                                          MaterialButton(
+                                                                                            child: const Text(
+                                                                                              'Cancel Booking',
+                                                                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                            onPressed: () {
+                                                                                              Navigator.of(ctx).pop();
+                                                                                              cancelBooking(index);
+                                                                                            },
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                    );
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    height: 30.r,
+                                                                                    width: (width - 50),
+                                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.blueGrey),
+                                                                                    child: const Center(
+                                                                                      child: Text(
+                                                                                        'Cancel booking',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.white,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                              : SizedBox(),
+                                                                        ],
+                                                                      )
+                                                                    ],
                                                                   ),
                                                                 ),
-                                                              )
-                                                            ],
-                                                          )
-                                          ],
+                                                                // const Divider(
+                                                                //   color: AppColors.shadowColor,
+                                                                //   height: 80,
+                                                                // ),
+                                                                Container(
+                                                                  width: width,
+                                                                  decoration: const BoxDecoration(
+                                                                      border: Border(
+                                                                          left:
+                                                                              BorderSide(color: AppColors.shadowColor))),
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            left:
+                                                                                1.0),
+                                                                        child:
+                                                                            Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Booking Date',
+                                                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12.sp),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 2,
+                                                                            ),
+                                                                            Text(
+                                                                              '$fromDate - $toDate',
+                                                                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height:
+                                                                            7,
+                                                                      ),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                            .only(
+                                                                            left:
+                                                                                1),
+                                                                        child:
+                                                                            Column(
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Text(
+                                                                              'Number of Rooms',
+                                                                              style: Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 12.sp),
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              height: 1,
+                                                                            ),
+                                                                            Text(
+                                                                              myBookingResponseModel!.data!.list![index].childs == "" ? '${myBookingResponseModel!.data!.list![index].noOfRooms} Room - ${(int.parse(myBookingResponseModel!.data!.list![index].adults!)).toString()} People' : '${myBookingResponseModel!.data!.list![index].noOfRooms} Room - ${(int.parse(myBookingResponseModel!.data!.list![index].adults!) + int.parse(myBookingResponseModel!.data!.list![index].childs!)).toString()} People',
+                                                                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14.sp),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      const SizedBox(
+                                                                        height:
+                                                                            50,
+                                                                      ),
+                                                                      Column(
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.start,
+                                                                        children: [
+                                                                          // SubmitButton(width: (width - 10), title: 'Change booking'),
+                                                                          myBookingResponseModel!.data!.list![index].checkinCheckoutFlag == 0
+                                                                              ? GestureDetector(
+                                                                                  onTap: () {
+                                                                                    showDialog(
+                                                                                      context: context,
+                                                                                      builder: (ctx) => AlertDialog(
+                                                                                        title: const Text('Check In'),
+                                                                                        content: Text(
+                                                                                            myBookingResponseModel!.data!.list![index].childs != ""
+                                                                                                ? 'Are you sure you want to\ncheck in room ${myBookingResponseModel!.data!.list![index].roomsId!} - ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!} '
+                                                                                                    '& Children: ${myBookingResponseModel!.data!.list![index].childs!}'
+                                                                                                : 'Are you sure you want to\ncheck in  room ${myBookingResponseModel!.data!.list![index].roomsId!} - ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!}',
+                                                                                            style: const TextStyle(color: Colors.black)),
+                                                                                        actions: <Widget>[
+                                                                                          MaterialButton(
+                                                                                            child: const Text('Dismiss'),
+                                                                                            onPressed: () {
+                                                                                              Navigator.of(ctx).pop();
+                                                                                            },
+                                                                                          ),
+                                                                                          MaterialButton(
+                                                                                            child: const Text(
+                                                                                              'Check In',
+                                                                                              style: TextStyle(fontWeight: FontWeight.bold),
+                                                                                            ),
+                                                                                            onPressed: () {
+                                                                                              Navigator.of(ctx).pop();
+                                                                                              checkIn(index);
+                                                                                            },
+                                                                                          )
+                                                                                        ],
+                                                                                      ),
+                                                                                    );
+                                                                                  },
+                                                                                  child: Container(
+                                                                                    height: 30.r,
+                                                                                    width: (width - 50),
+                                                                                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.btnColor),
+                                                                                    child: const Center(
+                                                                                      child: Text(
+                                                                                        'Check in',
+                                                                                        style: TextStyle(
+                                                                                          color: Colors.white,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                              : myBookingResponseModel!.data!.list![index].checkinCheckoutFlag == 1
+                                                                                  ? GestureDetector(
+                                                                                      onTap: () {
+                                                                                        showDialog(
+                                                                                          context: context,
+                                                                                          builder: (ctx) => AlertDialog(
+                                                                                            title: const Text('Check Out'),
+                                                                                            content: Text(
+                                                                                                myBookingResponseModel!.data!.list![index].childs != ""
+                                                                                                    ? 'Are you sure you want to\ncheck out room ${myBookingResponseModel!.data!.list![index].roomsId!} - ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!} '
+                                                                                                        '& Children: ${myBookingResponseModel!.data!.list![index].childs!}'
+                                                                                                    : 'Are you sure you want to\ncheck out room ${myBookingResponseModel!.data!.list![index].roomsId!} - ${myBookingResponseModel!.data!.list![index].roomCategory!}?\n\nRooms: ${myBookingResponseModel!.data!.list![index].noOfRooms!}=> Adults: ${myBookingResponseModel!.data!.list![index].adults!}',
+                                                                                                style: const TextStyle(color: Colors.black)),
+                                                                                            actions: <Widget>[
+                                                                                              MaterialButton(
+                                                                                                child: const Text('Dismiss'),
+                                                                                                onPressed: () {
+                                                                                                  Navigator.of(ctx).pop();
+                                                                                                },
+                                                                                              ),
+                                                                                              MaterialButton(
+                                                                                                child: const Text(
+                                                                                                  'Check Out',
+                                                                                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                                                                                ),
+                                                                                                onPressed: () {
+                                                                                                  Navigator.of(ctx).pop();
+                                                                                                  checkOut(index);
+                                                                                                },
+                                                                                              )
+                                                                                            ],
+                                                                                          ),
+                                                                                        );
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        height: 30.r,
+                                                                                        width: (width - 50),
+                                                                                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: AppColors.btnColor),
+                                                                                        child: const Center(
+                                                                                          child: Text(
+                                                                                            'Check Out',
+                                                                                            style: TextStyle(
+                                                                                              color: Colors.white,
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    )
+                                                                                  : SizedBox(),
+                                                                        ],
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
-
-                                                  ],
-                                                ),
-                                              ],
-                                          ),
+                                                  )
+                                                : SizedBox();
+                                          },
                                         ),
-                                            );
-                                      },
-                                    ),
-                                  ),
-                                ]),
+                                      ),
+                                    ]),
             );
           });
   }
 
   void getList() async {
-    myBookingResponseModel =
-        await Get.find<HomeController>().myBookingLists(hotel_id: "19",flag: "1");
-
-    for (int i = 0; i <= myBookingResponseModel!.data!.list!.length; i++) {
-      convertDate(i);
-    }
+    myBookingResponseModel = await Get.find<HomeController>()
+        .myBookingLists(hotel_id: widget.hotel_id, flag: "1");
+    if (myBookingResponseModel!.data!.list!.length > 0)
+      for (int i = 0; i < myBookingResponseModel!.data!.list!.length; i++) {
+        convertDate(i);
+      }
   }
 
   void convertDate(int index) {
     // var strtDate = list!.fromDate!;
     fromDate = DateFormat('dd MMM').format(
         DateTime.parse(myBookingResponseModel!.data!.list![index].fromDate!));
-    myBookingResponseModel!.data!.list![index].fromDate= fromDate;
-    toDate = DateFormat('dd MMM').format(DateTime.parse(myBookingResponseModel!.data!.list![index].toDate!));
-    myBookingResponseModel!.data!.list![index].toDate=toDate;
+    myBookingResponseModel!.data!.list![index].fromDate = fromDate;
+    toDate = DateFormat('dd MMM').format(
+        DateTime.parse(myBookingResponseModel!.data!.list![index].toDate!));
+    myBookingResponseModel!.data!.list![index].toDate = toDate;
   }
 
   Future<void> cancelBooking(int index) async {
-    await Get.find<HomeController>().cancelBooking(id: myBookingResponseModel!.data!.list![index].id.toString());
+    await Get.find<HomeController>().cancelBooking(
+        id: myBookingResponseModel!.data!.list![index].id.toString());
     setState(() {
-
+      getList();
     });
   }
 
   Future<void> checkIn(int index) async {
     var now = DateTime.now();
     String checkInDateTime = (DateFormat('YYYY-MM-DD HH:mm:ss').format(now));
-    await Get.find<HomeController>().checkIn(room_id: myBookingResponseModel!.data!.list![index].roomsId.toString(),
-    booking_id: myBookingResponseModel!.data!.list![index].id!.toString(),
-    checkInDateTime: checkInDateTime);
+    await Get.find<HomeController>().checkIn(
+        room_id: myBookingResponseModel!.data!.list![index].roomsId.toString(),
+        booking_id: myBookingResponseModel!.data!.list![index].id!.toString(),
+        checkInDateTime: checkInDateTime);
     setState(() {
+      getList();
+    });
+  }
 
+  Future<void> checkOut(int index) async {
+    var now = DateTime.now();
+    String checkOutDateTime = (DateFormat('YYYY-MM-DD HH:mm:ss').format(now));
+    await Get.find<HomeController>().checkOut(
+        room_id: myBookingResponseModel!.data!.list![index].roomsId.toString(),
+        booking_id: myBookingResponseModel!.data!.list![index].id!.toString(),
+        checkOutDateTime: checkOutDateTime);
+    setState(() {
+      getList();
     });
   }
 }

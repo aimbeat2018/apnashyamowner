@@ -46,9 +46,9 @@ class HomeRepo {
         .postData(AppConstants.home, {"area": searchText});
   }
 
-  Future<Response> categoryWiseHotels(String? catId) async {
+  Future<Response> hotelListing() async {
     return await apiClient.postData(
-        AppConstants.category_wise_hotel_listing, {"category_id": catId});
+        AppConstants.hotel_list, {});
   }
 
   Future<Response> room_listing(String? hotelId) async {
@@ -177,6 +177,12 @@ class HomeRepo {
   Future<Response> checkIn({String? room_id,String? booking_id,String? checkInDateTime}) async {
     return await apiClient
         .postData(AppConstants.owner_check_in, {"room_id": room_id,"booking_id": booking_id,"checkInDateTime": checkInDateTime,});
+  }
+
+
+  Future<Response> checkOut({String? room_id,String? booking_id,String? checkOutDateTime}) async {
+    return await apiClient
+        .postData(AppConstants.owner_check_out, {"room_id": room_id,"booking_id": booking_id,"checkOutDateTime": checkOutDateTime,});
   }
 
   Future<Response> storeSearch({String? id}) async {

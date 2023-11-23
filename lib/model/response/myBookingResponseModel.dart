@@ -81,6 +81,7 @@ class List1 {
   String? couponCode;
   String? cappingValue;
   String? coupon;
+  int? checkinCheckoutFlag;
 
   List1(
       {this.id,
@@ -114,7 +115,8 @@ class List1 {
         this.roomImage,
         this.couponCode,
         this.cappingValue,
-        this.coupon});
+        this.coupon,
+        this.checkinCheckoutFlag});
 
   List1.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -149,6 +151,7 @@ class List1 {
     couponCode = json['coupon_code'];
     cappingValue = json['capping_value'];
     coupon = json['coupon'];
+    checkinCheckoutFlag = json['checkin_checkout_flag'];
   }
 
   Map<String, dynamic> toJson() {
@@ -185,6 +188,7 @@ class List1 {
     data['coupon_code'] = this.couponCode;
     data['capping_value'] = this.cappingValue;
     data['coupon'] = this.coupon;
+    data['checkin_checkout_flag'] = this.checkinCheckoutFlag;
     return data;
   }
 }

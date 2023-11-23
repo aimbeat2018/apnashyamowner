@@ -275,24 +275,31 @@ TextEditingController newPasswordController = TextEditingController();
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
         children: [
-          const Center(
-            child: Text(
-              'Enter Code',
-              style: TextStyle(fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: const Center(
+              child: Text(
+                'Enter Code',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
-          Container(
-            height: 40,
-            decoration: BoxDecoration(
-                border: Border.all(), borderRadius: BorderRadius.circular(10)),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: TextFormField(
-                controller: newPasswordController,
-                  decoration: const InputDecoration(border: InputBorder.none)),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                  border: Border.all(), borderRadius: BorderRadius.circular(10)),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: TextFormField(
+                  controller: newPasswordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    decoration: const InputDecoration(border: InputBorder.none)),
+              ),
             ),
           ),
           const SizedBox(

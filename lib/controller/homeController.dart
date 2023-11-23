@@ -1,5 +1,6 @@
 
 import 'package:apnashyamowner/constant/globalFunction.dart';
+import 'package:apnashyamowner/model/response/myHotelsResponseModel.dart';
 import 'package:get/get.dart';
 
 import '../constant/repository/homeRepo.dart';
@@ -31,7 +32,7 @@ class HomeController extends GetxController implements GetxService {
   OtpResponseModel? otpResponseModel;
   LoginResponseModel? loginResponseModel;
   HelpQuestionAnswersResponseModel? helpQuestionAnswersResponseModel;
-  // FavouriteHotelsListingResponseModel? favHotelsLists;
+  MyHotelsResponseModel? myHotelsResponseModel;
   TnCPrivacyPolicyResponseModel? tnCPrivacyPolicyResponseModel;
   NotificationResponseModel? notificationResponseModel;
   // CouponsResponseModel? couponsResponseModel;
@@ -391,6 +392,24 @@ class HomeController extends GetxController implements GetxService {
     return helpQuestionAnswersResponseModel;
   }
 
+  Future<MyHotelsResponseModel?> hotelListingApi() async {
+    _isLoading = true;
+
+    Response response = await homeRepo.hotelListing();
+
+    if (response.statusCode == 200) {
+      myHotelsResponseModel =
+          MyHotelsResponseModel.fromJson(response.body);
+    } else {
+      myHotelsResponseModel;
+      null;
+    }
+
+    _isLoading = false;
+    update();
+    return myHotelsResponseModel;
+  }
+
   // Future<CommonResponseModel?> submitBookings(String? hotelId,
   //     String? roomId,
   //     String? noOfRooms,
@@ -532,6 +551,27 @@ class HomeController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       commonResponseModel = CommonResponseModel.fromJson(response.body);
       GlobalFunctions.showSuccessToast('Check In Successfully!');
+    } else {
+      commonResponseModel;
+      null;
+    }
+
+    _isLoading = false;
+    update();
+    return commonResponseModel;
+  }
+
+  Future<CommonResponseModel?> checkOut({String? room_id,String? booking_id,String? checkOutDateTime}) async {
+    _isLoading = true;
+
+    Response response = await homeRepo.checkOut(
+        room_id: room_id,
+        booking_id: booking_id,
+        checkOutDateTime: checkOutDateTime);
+
+    if (response.statusCode == 200) {
+      commonResponseModel = CommonResponseModel.fromJson(response.body);
+      GlobalFunctions.showSuccessToast('Check Out Successfully!');
     } else {
       commonResponseModel;
       null;

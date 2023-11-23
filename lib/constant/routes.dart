@@ -39,6 +39,9 @@
 // import '../screens/profile/settings/termsOfServiceScreen.dart';
 
 // Static Name For PageNavigation
+import 'package:apnashyamowner/screens/bookings/cancelled_bookings.dart';
+import 'package:apnashyamowner/screens/bookings/finished_bookings.dart';
+import 'package:apnashyamowner/screens/bookings/upcoming_bookings.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -87,6 +90,9 @@ class MyRoutes {
   static const answerScreen = '/AnswerScreen';
   static const profileSettings = '/ProfileSettings';
   static const profileScreen = '/ProfileScreen';
+  static const upcomingBookings = '/UpcomingBookings';
+  static const finishedBooking = '/FinishedBooking';
+  static const cancelledBooking = '/CancelledBooking';
   static const helpSupportScreen = '/HelpSupportScreen';
   static const couponsScreen = '/CouponsScreen';
   static const notificationScreen = '/NotificationScreen';
@@ -139,6 +145,15 @@ Route<dynamic>? generateRoute(RouteSettings settings, BuildContext context) {
 
     case MyRoutes.profileScreen:
       return pageNavigator(const ProfileScreen());
+
+    case MyRoutes.upcomingBookings:
+      return pageNavigator(UpcomingBookings());
+
+    case MyRoutes.finishedBooking:
+      return pageNavigator(FinishedBooking());
+
+    case MyRoutes.cancelledBooking:
+      return pageNavigator(CancelledBooking());
 
     case MyRoutes.answerScreen:
       List<dynamic> args = settings.arguments as List<dynamic>;
