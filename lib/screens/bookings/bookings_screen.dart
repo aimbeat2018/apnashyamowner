@@ -43,6 +43,9 @@ class _BookingsScreenState extends State<BookingsScreen>
   void initState() {
     // TODO: implement initState
 
+
+
+
     CheckInternet.initConnectivity().then((value) => setState(() {
           _connectionStatus = value;
         }));
@@ -243,9 +246,9 @@ class _BookingsScreenState extends State<BookingsScreen>
                   child: TabBarView(
                     physics: NeverScrollableScrollPhysics(),
                     children: [
-                      UpcomingBookings(hotel_id: selectedValue!),
-                      FinishedBooking(hotel_id: selectedValue!),
-                      CancelledBooking(hotel_id: selectedValue!),
+                      UpcomingBookings(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
+                      FinishedBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
+                      CancelledBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
                     ],
                   ),
                 ),

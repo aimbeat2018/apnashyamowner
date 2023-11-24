@@ -4,25 +4,39 @@ import 'package:apnashyamowner/controller/homeController.dart';
 import 'package:apnashyamowner/screens/bookings/bookings_screen.dart';
 import 'package:apnashyamowner/screens/userAuth/login_screen.dart';
 import 'package:apnashyamowner/utils/themes.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:notification_permissions/notification_permissions.dart';
 
 import 'constant/PushNotificationService.dart';
 import 'constant/globalFunction.dart';
 import 'constant/routes.dart';
+import 'notification/NotificationHelper.dart';
+
+final FlutterLocalNotificationsPlugin? flutterLocalNotificationsPlugin =
+(Platform.isAndroid || Platform.isIOS)
+    ? FlutterLocalNotificationsPlugin()
+    : null;
 
 Future<void> main() async {
   // Shared Preferences Intialize
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  NotificationPermissions.requestNotificationPermissions(
+      iosSettings:
+      NotificationSettingsIos(sound: true, badge: true, alert: true));
+
   // SharedPreferences.getInstance().then((instance) {
   //   instance == AppProvider().loadPage();
   //   runApp(ChangeNotifierProvider(
   //       create: (context) => AppProvider(), child: const MyApp()));
   //   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   // });
+
   if (GlobalFunctions.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
   }
@@ -37,6 +51,21 @@ Future<void> main() async {
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()!
       .requestPermission();
+
+  try {
+    // if (!kIsWeb) {
+    final RemoteMessage? remoteMessage =
+    await FirebaseMessaging.instance.getInitialMessage();
+    // if (remoteMessage != null) {
+    //   _orderID = remoteMessage.notification!.titleLocKey != null
+    //       ? int.parse(remoteMessage.notification!.titleLocKey!)
+    //       : null;
+    // }
+    await NotificationHelper.initialize(flutterLocalNotificationsPlugin!);
+    FirebaseMessaging.onBackgroundMessage(myBackgroundMessageHandler);
+    // }
+  } catch (e) {}
+
 }
 
 class MyApp extends StatefulWidget {

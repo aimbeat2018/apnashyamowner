@@ -17,7 +17,8 @@ import '../../widget/bookings/upcoming_booking.dart';
 
 class FinishedBooking extends StatefulWidget {
   String? hotel_id;
-   FinishedBooking({super.key, this.hotel_id});
+  int? selectedIndex;
+   FinishedBooking({super.key, this.hotel_id, this.selectedIndex});
 
   @override
   State<FinishedBooking> createState() => _FinishedBookingState();
@@ -45,12 +46,12 @@ class _FinishedBookingState extends State<FinishedBooking> {
             _connectionStatus = value;
           }));
         });
-    getList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    getList();
 
     var width = (ScreenUtil().screenWidth * .5) - 20.r;
     return _connectionStatus == AppConstants.connectivityCheck
@@ -470,7 +471,7 @@ class _FinishedBookingState extends State<FinishedBooking> {
 
   void getList() async{
     myBookingResponseModel =
-    await Get.find<HomeController>().myBookingLists(hotel_id:  widget.hotel_id,flag: "2");
+    await Get.find<HomeController>().myBookingLists(hotel_id:  widget.hotel_id,flag: widget.selectedIndex.toString());
 
     for (int i = 0; i < myBookingResponseModel!.data!.list!.length; i++) {
       convertDate(i);

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "872463707282",
+    "project_id": "apnashyam-9df88",
+    "storage_bucket": "apnashyam-9df88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872463707282:android:2b8f2b0a8ebab19e31ca4b",
+        "android_client_info": {
+          "package_name": "com.apnashyamowner.apnashyamowner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL6qa1GtMettt8LmaXs2e4sWx_MIK5QxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872463707282:android:6956f0ab7c054bca31ca4b",
+        "android_client_info": {
+          "package_name": "com.example.apnashyam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAL6qa1GtMettt8LmaXs2e4sWx_MIK5QxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -16,8 +16,9 @@ import '../../model/response/myBookingResponseModel.dart';
 
 class UpcomingBookings extends StatefulWidget {
   String? hotel_id;
+  int? selectedIndex;
 
-  UpcomingBookings({super.key, this.hotel_id});
+  UpcomingBookings({super.key, this.hotel_id, this.selectedIndex});
 
   @override
   State<UpcomingBookings> createState() => _UpcomingBookingsState();
@@ -165,8 +166,15 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                                                                         crossAxisAlignment:
                                                                             CrossAxisAlignment.start,
                                                                         children: [
+                                                                          myBookingResponseModel!.data!.list![index].userName!=""?
                                                                           Text(
                                                                             myBookingResponseModel!.data!.list![index].userName!,
+                                                                            style: TextStyle(
+                                                                                color: AppColors.btnColor,
+                                                                                fontWeight: FontWeight.bold,
+                                                                                fontSize: 16.sp),
+                                                                          ):Text(
+                                                                            'Guest(No Name)',
                                                                             style: TextStyle(
                                                                                 color: AppColors.btnColor,
                                                                                 fontWeight: FontWeight.bold,
@@ -483,7 +491,7 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
 
   void getList() async {
     myBookingResponseModel = await Get.find<HomeController>()
-        .myBookingLists(hotel_id: widget.hotel_id, flag: "1");
+        .myBookingLists(hotel_id: widget.hotel_id, flag: widget.selectedIndex.toString());
     if (myBookingResponseModel!.data!.list!.length > 0)
       for (int i = 0; i < myBookingResponseModel!.data!.list!.length; i++) {
         convertDate(i);
