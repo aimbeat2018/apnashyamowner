@@ -242,13 +242,13 @@ class _BookingsScreenState extends State<BookingsScreen>
               ?Expanded(
                 child: SizedBox(
                   width: double.infinity,
-                  height: 620.r,
+                  height: MediaQuery.of(context).size.height,
                   child: TabBarView(
                     physics: NeverScrollableScrollPhysics(),
                     children: [
                       UpcomingBookings(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
-                      FinishedBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
-                      CancelledBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
+                      FinishedBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+2),
+                      CancelledBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+2),
                     ],
                   ),
                 ),

@@ -346,9 +346,6 @@ TextEditingController newPasswordController = TextEditingController();
   getUserProfile() async {
     userProfileResponseModel =
         await Get.find<HomeController>().getUserProfile();
-    if (userProfileResponseModel!.data!.code != "200") {
-      Get.toNamed(MyRoutes.logIn);
-    }
     setState(() {});
   }
 }

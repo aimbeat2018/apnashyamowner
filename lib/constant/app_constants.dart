@@ -1,5 +1,5 @@
 class AppConstants {
-  static const String baseUrl = 'https://royaldreamsindia.in/apnashyam/';
+  static const String baseUrl = 'https://apnashyam.com/';
   static const String login = 'owner_login';
   static const String profile = 'owner_profile';
   static const String ownerChangePassword = 'owner_change_password';

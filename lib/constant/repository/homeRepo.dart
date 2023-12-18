@@ -12,39 +12,11 @@ class HomeRepo {
 
   HomeRepo({required this.apiClient, required this.sharedPreferences});
 
-  /*short_type:1
-  car_parking:1
-  rating:3
-  distance_min:10
-  distance_max:30
-  price_min:50
-  price_max:200*/
 
-  Future<Response> banner(
-      String? shortType,
-      String? carParking,
-      String? rating,
-      String? distanceMin,
-      String? distanceMax,
-      String? priceMin,
-      String? priceMax,
-      String? categoryId) async {
-    return await apiClient.postData(AppConstants.home, {
-      "short_type": shortType,
-      "car_parking": carParking,
-      "rating": rating,
-      "distance_min": distanceMin,
-      "distance_max": distanceMax,
-      "price_min": priceMin,
-      "price_max": priceMax,
-      "category_id": categoryId
-    });
-  }
-
-  Future<Response> areaList(String? searchText) async {
-    return await apiClient
-        .postData(AppConstants.home, {"area": searchText});
-  }
+  // Future<Response> areaList(String? searchText) async {
+  //   return await apiClient
+  //       .postData(AppConstants.home, {"area": searchText});
+  // }
 
   Future<Response> hotelListing() async {
     return await apiClient.postData(

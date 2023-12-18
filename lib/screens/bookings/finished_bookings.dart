@@ -65,7 +65,7 @@ class _FinishedBookingState extends State<FinishedBooking> {
         const Center(child: CircularProgressIndicator(),)
             :  myBookingResponseModel!.data!.code == "201"
             ? const Center(
-          child: Text("Data not found!"),
+          child: Text("Data not found! - finished"),
 
         ): myBookingResponseModel!.data!.list == null ?
         const Center(child: Center(child: Text('No records found!')),)
@@ -470,6 +470,7 @@ class _FinishedBookingState extends State<FinishedBooking> {
   }
 
   void getList() async{
+    print("sel flag finished"+(widget.selectedIndex!+2).toString());
     myBookingResponseModel =
     await Get.find<HomeController>().myBookingLists(hotel_id:  widget.hotel_id,flag: widget.selectedIndex.toString());
 
