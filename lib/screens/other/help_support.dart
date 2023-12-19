@@ -112,6 +112,8 @@ class _HelpSupportScreenState extends State<HelpSupportScreen> {
                                     fontSize: 13.r,
                                   ),
                         ),
+
+
                         homeController.isLoading &&
                                 helpQuestionAnswersResponseModel == null
                             ? const Center(
