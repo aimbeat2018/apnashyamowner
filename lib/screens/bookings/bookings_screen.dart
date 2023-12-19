@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:apnashyamowner/common/custom_appbar.dart';
+import 'package:apnashyamowner/constant/custom_snackbar.dart';
 import 'package:apnashyamowner/constant/globalFunction.dart';
+import 'package:apnashyamowner/constant/routes.dart';
 import 'package:apnashyamowner/model/response/myHotelsResponseModel.dart';
 import 'package:apnashyamowner/screens/bookings/cancelled_bookings.dart';
 import 'package:apnashyamowner/screens/bookings/finished_bookings.dart';
@@ -27,13 +29,14 @@ class BookingsScreen extends StatefulWidget {
 class _BookingsScreenState extends State<BookingsScreen>
     with SingleTickerProviderStateMixin<BookingsScreen> {
   MyHotelsResponseModel? myHotelsResponseModel;
+
   // We need a TabController to control the selected tab programmatically
   late final _tabController = TabController(length: 3, vsync: this);
 
   // List<String> items = [];
   // List<String> itemsId = [];
   String? selectedValue;
-  int _selectedIndex=0;
+  int _selectedIndex = 0;
 
   String _connectionStatus = 'unKnown';
   final Connectivity _connectivity = Connectivity();
@@ -42,9 +45,6 @@ class _BookingsScreenState extends State<BookingsScreen>
   @override
   void initState() {
     // TODO: implement initState
-
-
-
 
     CheckInternet.initConnectivity().then((value) => setState(() {
           _connectionStatus = value;
@@ -62,7 +62,7 @@ class _BookingsScreenState extends State<BookingsScreen>
       });
       print("Selected Index: " + _tabController.index.toString());
     });
-      getList();
+    getList();
     super.initState();
   }
 
@@ -221,10 +221,8 @@ class _BookingsScreenState extends State<BookingsScreen>
                     ),
                   ],
                   onTap: (value) {
-                    _selectedIndex=value;
-                    setState(() {
-
-                    });
+                    _selectedIndex = value;
+                    setState(() {});
                     // if(value==0){
                     //   UpcomingBookings(hotel_id: selectedValue!);
                     // }else if(value==1){
@@ -238,21 +236,28 @@ class _BookingsScreenState extends State<BookingsScreen>
               SizedBox(
                 height: 18.r,
               ),
-              selectedValue!=null
-              ?Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height,
-                  child: TabBarView(
-                    physics: NeverScrollableScrollPhysics(),
-                    children: [
-                      UpcomingBookings(hotel_id: selectedValue!, selectedIndex:_selectedIndex+1),
-                      FinishedBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+2),
-                      CancelledBooking(hotel_id: selectedValue!, selectedIndex:_selectedIndex+2),
-                    ],
-                  ),
-                ),
-              ):SizedBox(),
+              selectedValue != null
+                  ? Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height,
+                        child: TabBarView(
+                          physics: NeverScrollableScrollPhysics(),
+                          children: [
+                            UpcomingBookings(
+                                hotel_id: selectedValue!,
+                                selectedIndex: _selectedIndex + 1),
+                            FinishedBooking(
+                                hotel_id: selectedValue!,
+                                selectedIndex: _selectedIndex + 2),
+                            CancelledBooking(
+                                hotel_id: selectedValue!,
+                                selectedIndex: _selectedIndex + 2),
+                          ],
+                        ),
+                      ),
+                    )
+                  : SizedBox(),
             ],
           ),
         ),
@@ -285,17 +290,24 @@ class _BookingsScreenState extends State<BookingsScreen>
   void getList() async {
     myHotelsResponseModel = await Get.find<HomeController>().hotelListingApi();
 
-    if(myHotelsResponseModel!.data!.profile!.length>0)
-    selectedValue = myHotelsResponseModel!.data!.profile![0].id.toString();
-    // items = [];
-    // itemsId = [];
-    //
-    // for (int i = 0; i < myHotelsResponseModel!.data!.profile!.length; i++) {
-    //   items.add(myHotelsResponseModel!.data!.profile![i].title!);
-    //   itemsId.add(myHotelsResponseModel!.data!.profile![i].id.toString());
-    // }
-    // print(items);
+    if (myHotelsResponseModel!.data!.code == "201" &&
+        myHotelsResponseModel!.data!.message == "Unauthorized User") {
 
-    setState(() {});
+      showCustomSnackBar("You tried logging somewhere else login again to proceed!");
+      Get.offAllNamed(MyRoutes.logIn);
+    } else {
+      if (myHotelsResponseModel!.data!.profile!.length > 0)
+        selectedValue = myHotelsResponseModel!.data!.profile![0].id.toString();
+      // items = [];
+      // itemsId = [];
+      //
+      // for (int i = 0; i < myHotelsResponseModel!.data!.profile!.length; i++) {
+      //   items.add(myHotelsResponseModel!.data!.profile![i].title!);
+      //   itemsId.add(myHotelsResponseModel!.data!.profile![i].id.toString());
+      // }
+      // print(items);
+
+      setState(() {});
+    }
   }
 }

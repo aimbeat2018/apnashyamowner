@@ -257,7 +257,7 @@ TextEditingController newPasswordController = TextEditingController();
                   height: 20,
                 ),
                 SubmitButton(
-                    title: 'Enter Code',
+                    title: 'Enter New Password',
                     onTap: () => dialogForChangePassword(context))
               ],
             ),
@@ -279,7 +279,7 @@ TextEditingController newPasswordController = TextEditingController();
             padding: const EdgeInsets.all(8.0),
             child: const Center(
               child: Text(
-                'Enter Code',
+                'Enter new password',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
@@ -337,10 +337,10 @@ TextEditingController newPasswordController = TextEditingController();
     commonResponseModel =
         await Get.find<HomeController>().ownerChangePassword(newpassword);
 
-    if (commonResponseModel!.data!.code != "200") {
+    // if (commonResponseModel!.data!.code != "200") {
       showCustomSnackBar(commonResponseModel!.data!.message!);
 
-    }
+    // }
     setState(() {});
   }
   getUserProfile() async {

@@ -53,7 +53,7 @@ class Profile {
   String? areaId;
   String? name;
   String? email;
-  int? mobile;
+  String? mobile;
   String? emailVerifiedAt;
   String? type;
   String? active;

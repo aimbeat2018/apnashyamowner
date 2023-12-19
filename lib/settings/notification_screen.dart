@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constant/app_constants.dart';
 import '../../../constant/internetConnectivity.dart';
@@ -23,19 +24,19 @@ class _NotificationScreenState extends State<NotificationScreen> {
   String _connectionStatus = 'unKnown';
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
-NotificationResponseModel? notificationResponseModel;
+  NotificationResponseModel? notificationResponseModel;
 
   @override
   void initState() {
     CheckInternet.initConnectivity().then((value) => setState(() {
-          _connectionStatus = value;
-        }));
+      _connectionStatus = value;
+    }));
     _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      CheckInternet.updateConnectionStatus(result).then((value) => setState(() {
+          CheckInternet.updateConnectionStatus(result).then((value) => setState(() {
             _connectionStatus = value;
           }));
-    });
+        });
 
     getList();
 
@@ -51,43 +52,43 @@ NotificationResponseModel? notificationResponseModel;
         body: _connectionStatus == AppConstants.connectivityCheck
             ? const NoInternetScreen()
             : GetBuilder<HomeController>(builder: (homeController) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const CustomTitle(title: 'Notification'),
-                      homeController.isLoading &&
-                          notificationResponseModel==null
-                          ? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                          :notificationResponseModel!.data==null? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                          :notificationResponseModel!.data!.noti==null? const Center(
-                        child: CircularProgressIndicator(),
-                      )
-                          : Expanded(
-                        child: ListView.separated(
-                          padding: EdgeInsets.only(top: 10.r),
-                          itemCount: notificationResponseModel!.data!.noti!.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return notificationWidget(
-                              index,
-                              context,
-                              () {
-                                //TODO: OnTap Functions
-                              },
-                            );
-                          },
-                          separatorBuilder: (context, index) => const Divider(),
-                        ),
-                      ),
-                    ],
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const CustomTitle(title: 'Notification'),
+                homeController.isLoading &&
+                    notificationResponseModel==null
+                    ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    :notificationResponseModel!.data==null? const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    :notificationResponseModel!.data!.noti==null? const Center(
+                  child: CircularProgressIndicator(),
+                )
+                    : Expanded(
+                  child: ListView.separated(
+                    padding: EdgeInsets.only(top: 10.r),
+                    itemCount: notificationResponseModel!.data!.noti!.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return notificationWidget(
+                        index,
+                        context,
+                            () {
+                          //TODO: OnTap Functions
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) => const Divider(),
                   ),
-                );
-              }));
+                ),
+              ],
+            ),
+          );
+        }));
   }
 
 // notificationWidget
@@ -102,7 +103,7 @@ NotificationResponseModel? notificationResponseModel;
           children: [
             Icon(
               size: 20.sp,
-              Icons.notifications_active,
+              Icons.hotel,
             ),
             SizedBox(
               width: 10.r,
@@ -113,9 +114,14 @@ NotificationResponseModel? notificationResponseModel;
                 children: [
                   Row(
                     children: [
-                      Text(
-                        notificationResponseModel!.data!.noti![index].title!,
-                        style: TextStyle(fontSize: 16.sp),
+                      SizedBox(
+                        width:250,
+                        child: Text(
+                          '${notificationResponseModel!.data!.noti![index].title!.toUpperCase()}ED in ${notificationResponseModel!.data!.noti![index].hotelName!}\n on ${notificationResponseModel!.data!.noti![index].createdAt}',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 16.sp,color: Colors.black),
+                        ),
                       ),
                       // const Spacer(
                       //   flex: 1,
@@ -150,5 +156,20 @@ NotificationResponseModel? notificationResponseModel;
 
   Future<void> getList() async {
     notificationResponseModel= await Get.find<HomeController>().notificationListing();
+
+    for (int i = 0; i <= notificationResponseModel!.data!.noti!.length; i++) {
+      convertBookingDate(i);
+    }
+    setState(() {
+
+    });
+  }
+
+
+  void convertBookingDate(int index) {
+    String createdAt = DateFormat.yMd().add_jm().format(
+        DateTime.parse(notificationResponseModel!.data!.noti![index].createdAt!));
+
+    notificationResponseModel!.data!.noti![index].createdAt= createdAt;
   }
 }
