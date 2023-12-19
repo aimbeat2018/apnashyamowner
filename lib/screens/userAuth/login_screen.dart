@@ -267,6 +267,8 @@ class _LoginScreenState extends State<LoginScreen> {
         showCustomSnackBar(model.data!.message!);
 
         Navigator.pushNamed(context2, MyRoutes.bookingsScreen);
+      }else if (model!.data!.code == "201"&&model!.data!.message=="Account Deactive contact admin!Login Failed") {
+        showCustomSnackBar('Your account is not active contact admin!');
       } else {
         showCustomSnackBar('Something went wrong!', isError: true);
       }

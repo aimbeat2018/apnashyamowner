@@ -86,7 +86,7 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                         Text(
-                                            'You have ${myBookingResponseModel!.data!.list!.length} upcoming booking'),
+                                            'You have ${myBookingResponseModel!.data!.list!.length} booking'),
                                         SizedBox(
                                           height: 10.r,
                                         ),
@@ -100,17 +100,18 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                                                 .data!.list!.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              return myBookingResponseModel!
-                                                              .data!
-                                                              .list![index]
-                                                              .checkinCheckoutFlag ==
-                                                          0 ||
-                                                      myBookingResponseModel!
-                                                              .data!
-                                                              .list![index]
-                                                              .checkinCheckoutFlag ==
-                                                          1
-                                                  ? Padding(
+                                              return
+                                                // widget.selectedIndex==1?myBookingResponseModel!
+                                                //               .data!
+                                                //               .list![index]
+                                                //               .checkinCheckoutFlag ==
+                                                //           0 ||
+                                                //       myBookingResponseModel!
+                                                //               .data!
+                                                //               .list![index]
+                                                //               .checkinCheckoutFlag ==
+                                                //           1
+                                                  Padding(
                                                       padding: const EdgeInsets
                                                           .symmetric(
                                                           vertical: 5.0),
@@ -185,7 +186,6 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                                                                                   fontSize: 16.sp),
                                                                             ),myBookingResponseModel!.data!.list![index].userMobile!=""?
                                                                             Row(
-                                                                              crossAxisAlignment: CrossAxisAlignment.stretch,
                                                                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                               children: [
                                                                                 Text(
@@ -506,7 +506,8 @@ class _UpcomingBookingsState extends State<UpcomingBookings> {
                                                         ),
                                                       ),
                                                     )
-                                                  : SizedBox();
+
+                                              ;
                                             },
                                           ),
                                         ),
