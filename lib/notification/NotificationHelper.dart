@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -11,9 +10,9 @@ class NotificationHelper {
   static Future<void> initialize(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
     var androidInitialize =
-        new AndroidInitializationSettings('notification_icon');
-    var iOSInitialize = new DarwinInitializationSettings();
-    var initializationsSettings = new InitializationSettings(
+    const AndroidInitializationSettings('app_icon');
+    var iOSInitialize = const DarwinInitializationSettings();
+    var initializationsSettings = InitializationSettings(
         android: androidInitialize, iOS: iOSInitialize);
     // flutterLocalNotificationsPlugin.initialize(initializationsSettings, onSelectNotification: (String payload) async {
     //   try{
@@ -45,14 +44,14 @@ class NotificationHelper {
 
   static Future<void> showNotification(RemoteMessage message,
       FlutterLocalNotificationsPlugin fln, bool data) async {
-    String? _title;
-    String? _body;
-    String? _orderID;
-    String? _image;
+    String? title;
+    String? body;
+    String? orderID;
+    String? image;
     String? id;
     String? type;
     String? flag;
-    String? is_gold;
+    String? isGold;
     String? amt;
     if (data) {
       /*String title = data.getString("title");
@@ -66,67 +65,67 @@ class NotificationHelper {
       String is_gold = data.getString("is_gold");
       String amt = data.getString("amt");
       */
-      _title = message.data['title'];
-      _body = message.data['message'];
+      title = message.data['title'];
+      body = message.data['message'];
       // _orderID = message.data['order_id'];
       id = message.data['id'];
       type = message.data['type'];
       flag = message.data['flag'];
-      is_gold = message.data['is_gold'];
+      isGold = message.data['is_gold'];
       amt = message.data['amt'];
-      _image = /*(message.data['image'] != null &&
+      image = /*(message.data['image'] != null &&
               message.data['image'].isNotEmpty)
           ? message.data['image'].startsWith('http')
               ? message.data['image']
               : '${AppConstants.BASE_URL}/storage/app/public/notification/${message.data['image']}'
           : null;*/
-          message.data['image'];
+      message.data['image'];
     } else {
-      _title = message.notification!.title;
-      _body = message.notification!.body;
-      _orderID = message.notification!.titleLocKey;
+      title = message.notification!.title;
+      body = message.notification!.body;
+      // orderID = message.notification!.titleLocKey;
       if (Platform.isAndroid) {
-        _image = (message.notification!.android!.imageUrl != null &&
-                message.notification!.android!.imageUrl!.isNotEmpty)
+        image = (message.notification!.android!.imageUrl != null &&
+            message.notification!.android!.imageUrl!.isNotEmpty)
             ? message.notification!.android!.imageUrl!.startsWith('http')
-                ? message.notification!.android!.imageUrl
-                : message.notification!.android!.imageUrl
+            ? message.notification!.android!.imageUrl
+            : message.notification!.android!.imageUrl
             : null;
       } else if (Platform.isIOS) {
-        _image = (message.notification!.apple!.imageUrl != null &&
-                message.notification!.apple!.imageUrl!.isNotEmpty)
+        image = (message.notification!.apple!.imageUrl != null &&
+            message.notification!.apple!.imageUrl!.isNotEmpty)
             ? message.notification!.apple!.imageUrl!.startsWith('http')
-                ? message.notification!.apple!.imageUrl
-                : message.notification!.apple!.imageUrl
+            ? message.notification!.apple!.imageUrl
+            : message.notification!.apple!.imageUrl
             : null;
       }
     }
 
-    if (_image != null && _image.isNotEmpty) {
+    if (image != null && image.isNotEmpty) {
       try {
         await showBigPictureNotificationHiddenLargeIcon(
-            _title!, _body!, _image, fln);
+            title!, body!, image, fln);
       } catch (e) {
-        await showBigTextNotification(_title!, _body!, fln);
+        await showBigTextNotification(title!, body!, fln);
       }
     } else {
-      await showBigTextNotification(_title!, _body!, fln);
+      await showBigTextNotification(title!, body!, fln);
     }
   }
 
   static Future<void> showTextNotification(
       String title, String body, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'apnashyamowner',
-      'apnashyamowner',
-      playSound: true,
+    AndroidNotificationDetails(
+      'apnashyam',
+      'apnashyam',
+      // playSound: true,
       importance: Importance.max,
       priority: Priority.max,
-      sound: RawResourceAndroidNotificationSound('notification'),
+      // sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(0, title, body, platformChannelSpecifics, payload: title);
   }
 
@@ -139,17 +138,17 @@ class NotificationHelper {
       htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'apnashyamowner',
-      'apnashyamowner',
+    AndroidNotificationDetails(
+      'apnashyam',
+      'apnashyam',
       importance: Importance.max,
       styleInformation: bigTextStyleInformation,
       priority: Priority.max,
-      playSound: true,
-      sound: RawResourceAndroidNotificationSound('notification'),
+      // playSound: true,
+      // sound: const RawResourceAndroidNotificationSound('notification'),
     );
     NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(0, title, body, platformChannelSpecifics, payload: title);
   }
 
@@ -157,9 +156,9 @@ class NotificationHelper {
       String body, String image, FlutterLocalNotificationsPlugin fln) async {
     final String largeIconPath = await _downloadAndSaveFile(image, 'largeIcon');
     final String bigPicturePath =
-        await _downloadAndSaveFile(image, 'bigPicture');
+    await _downloadAndSaveFile(image, 'bigPicture');
     final BigPictureStyleInformation bigPictureStyleInformation =
-        BigPictureStyleInformation(
+    BigPictureStyleInformation(
       FilePathAndroidBitmap(bigPicturePath),
       hideExpandedLargeIcon: true,
       contentTitle: title,
@@ -168,18 +167,18 @@ class NotificationHelper {
       htmlFormatSummaryText: true,
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
-      'apnashyamowner',
-      'apnashyamowner',
+    AndroidNotificationDetails(
+      'apnashyam',
+      'apnashyam',
       largeIcon: FilePathAndroidBitmap(largeIconPath),
       priority: Priority.max,
-      playSound: true,
+      // playSound: true,
       styleInformation: bigPictureStyleInformation,
       importance: Importance.max,
-      sound: RawResourceAndroidNotificationSound('notification'),
+      // sound: const RawResourceAndroidNotificationSound('notification'),
     );
     final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await fln.show(0, title, body, platformChannelSpecifics, payload: title);
   }
 
@@ -197,5 +196,5 @@ class NotificationHelper {
 
 Future<dynamic> myBackgroundMessageHandler(RemoteMessage message) async {
   print(
-      "onBackground: ${message.notification!.title}/${message.notification!.body}/${message.notification!.titleLocKey}");
+      "onBackground: ${message.notification!.title}/${message.notification!.body}");
 }

@@ -354,10 +354,10 @@ class HomeController extends GetxController implements GetxService {
   //   return otpResponseModel;
   // }
 
-  Future<LoginResponseModel?> doLoginOrReg(String? email, String? password) async {
+  Future<LoginResponseModel?> doLoginOrReg(String? email, String? password, String? device_token) async {
     _isLoading = true;
 
-    Response response = await homeRepo.login(email, password);
+    Response response = await homeRepo.login(email, password, device_token);
 
     if (response.statusCode == 200) {
       loginResponseModel = LoginResponseModel.fromJson(response.body);

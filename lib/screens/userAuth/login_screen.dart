@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -260,9 +261,10 @@ class _LoginScreenState extends State<LoginScreen> {
           });
   }
 
-  void loginOrReg(
-      HomeController homeController, String email, String password, BuildContext context2) {
-    homeController.doLoginOrReg(email, password).then((model) async {
+  Future<void> loginOrReg(
+      HomeController homeController, String email, String password, BuildContext context2) async {
+    String? device_token= await FirebaseMessaging.instance.getToken();
+    homeController.doLoginOrReg(email, password,device_token).then((model) async {
       if (model!.data!.code == "200") {
         showCustomSnackBar(model.data!.message!);
 

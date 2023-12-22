@@ -75,8 +75,8 @@ class HomeRepo {
   //   return await apiClient.postData(AppConstants.otp, {"mobile": phone});
   // }
 
-  Future<Response> login(String? email, String? password) async {
-    return await apiClient.postData(AppConstants.login, {"email": email,"password": password});
+  Future<Response> login(String? email, String? password, String? device_token) async {
+    return await apiClient.postData(AppConstants.login, {"email": email,"password": password,"device_token": device_token});
   }
 
   Future<Response> helpQuestionList() async {
